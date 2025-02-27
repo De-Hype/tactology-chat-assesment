@@ -4,5 +4,6 @@ export declare class UserResolver {
     private userService;
     constructor(userService: UserService);
     me(user: any): Promise<User>;
-    createUser(username: string, password: string): Promise<User>;
+    deleteUser(user: any): Promise<User>;
+    createUser(email: string, username: string, password: string): Promise<User>;
 }

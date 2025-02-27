@@ -8,13 +8,27 @@ services:
     environment:
       POSTGRES_DB: tactology-assessment
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_PASSWORD: yourpassword123@
     ports:
       - '5433:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+  adminer:
+    image: adminer
+    container_name: adminer_container
+    restart: always
+    ports:
+      - '8080:8080'
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
 
 volumes:
   postgres_data:
     driver: local
-

@@ -17,7 +17,9 @@ const auth_module_1 = require("./auth/auth.module");
 const chat_module_1 = require("./chat/chat.module");
 const room_module_1 = require("./room/room.module");
 const users_module_1 = require("./users/users.module");
-console.log(process.env.PORT);
+const dotenv = require("dotenv");
+dotenv.config();
+console.log(`Server running on port: ${process.env.PORT}`);
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -31,7 +33,6 @@ exports.AppModule = AppModule = __decorate([
                 driver: apollo_1.ApolloDriver,
                 autoSchemaFile: (0, path_1.join)(process.cwd(), 'src/schema.gql'),
                 sortSchema: true,
-                playground: process.env.NODE_ENV !== 'production',
                 subscriptions: {
                     'graphql-ws': true,
                     'subscriptions-transport-ws': true,
@@ -39,17 +40,14 @@ exports.AppModule = AppModule = __decorate([
                 context: ({ req }) => ({ req }),
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
-                imports: [config_1.ConfigModule],
-                inject: [config_1.ConfigService],
-                useFactory: (configService) => ({
+                useFactory: () => ({
                     type: 'postgres',
-                    host: process.env.DB_HOST || 'db',
-                    port: parseInt(process.env.DB_PORT) || 5432,
-                    username: process.env.DB_USERNAME || 'postgres',
-                    password: process.env.DB_PASSWORD || 'yourpassword',
-                    database: process.env.DB_DATABASE || 'tactology-assessment',
+                    port: Number(process.env.DB_PORT),
+                    username: String(process.env.DB_USER),
+                    password: String(process.env.DB_PASSWORD),
+                    database: String(process.env.DB_NAME),
                     entities: [__dirname + '/**/*.entity{.ts,.js}'],
-                    synchronize: process.env.DB_SYNC === 'true' || false,
+                    synchronize: true,
                 }),
             }),
             auth_module_1.AuthModule,

@@ -5,6 +5,8 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 
+
+
 @Resolver(() => User)
 export class UserResolver {
   constructor(private userService: UserService) {}
@@ -15,11 +17,18 @@ export class UserResolver {
     return this.userService.findById(user.userId);
   }
 
+  @Query(() => User)
+  @UseGuards(JwtAuthGuard)
+  async deleteUser(@CurrentUser() user: any): Promise<User> {
+    return this.userService.deleteUser(user.userId);
+  }
+
   @Mutation(() => User)
   async createUser(
+    @Args('email') email: string,
     @Args('username') username: string,
     @Args('password') password: string,
   ): Promise<User> {
-    return this.userService.create(username, password);
+    return this.userService.create(email, username, password);
   }
 }

@@ -10,4 +10,7 @@ export class LoginResponse {
 
   @Field()
   username: string;
+  
+  @Field()
+  email: string;
 }

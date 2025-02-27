@@ -26,8 +26,11 @@ let UserResolver = class UserResolver {
     async me(user) {
         return this.userService.findById(user.userId);
     }
-    async createUser(username, password) {
-        return this.userService.create(username, password);
+    async deleteUser(user) {
+        return this.userService.deleteUser(user.userId);
+    }
+    async createUser(email, username, password) {
+        return this.userService.create(email, username, password);
     }
 };
 exports.UserResolver = UserResolver;
@@ -40,11 +43,20 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "me", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => user_entity_1.User),
-    __param(0, (0, graphql_1.Args)('username')),
-    __param(1, (0, graphql_1.Args)('password')),
+    (0, graphql_1.Query)(() => user_entity_1.User),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "deleteUser", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => user_entity_1.User),
+    __param(0, (0, graphql_1.Args)('email')),
+    __param(1, (0, graphql_1.Args)('username')),
+    __param(2, (0, graphql_1.Args)('password')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "createUser", null);
 exports.UserResolver = UserResolver = __decorate([

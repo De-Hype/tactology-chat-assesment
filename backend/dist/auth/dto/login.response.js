@@ -26,6 +26,10 @@ __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
 ], LoginResponse.prototype, "username", void 0);
+__decorate([
+    (0, graphql_1.Field)(),
+    __metadata("design:type", String)
+], LoginResponse.prototype, "email", void 0);
 exports.LoginResponse = LoginResponse = __decorate([
     (0, graphql_1.ObjectType)()
 ], LoginResponse);

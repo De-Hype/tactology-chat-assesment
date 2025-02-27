@@ -28,9 +28,17 @@ let UserService = class UserService {
     async findByUsername(username) {
         return this.userRepository.findOne({ where: { username } });
     }
-    async create(username, password) {
+    async deleteUser(email) {
+        const user = await this.userRepository.findOne({ where: { email } });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return this.userRepository.remove(user);
+    }
+    async create(email, username, password) {
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = this.userRepository.create({
+            email,
             username,
             password: hashedPassword,
         });
